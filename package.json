@@ -23,5 +23,8 @@
   "jest": {
     "rootDir": "test/",
     "testRegex": "test\\.js$"
+  },
+  "engines": {
+    "node": ">=10.15.3"
   }
 }
