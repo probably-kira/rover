@@ -7,6 +7,11 @@ class GroundControl {
         this.rovers = rovers;
     }
 
+    /**
+     * Validate position of each rover
+     * @param rover
+     * @returns {*}
+     */
     tryToLandRover(r) {
         const {name, landing: {x, y, direction}} = r;
         if (this.plateau.contains(x, y)) {
@@ -16,6 +21,10 @@ class GroundControl {
         return null
     }
 
+    /**
+     * Takes all rovers, validate their position,
+     * and move in agree with instructions
+     */
     moveRovers() {
         this.rovers.map(data => {
             const r = new Rover(data);

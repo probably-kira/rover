@@ -12,12 +12,26 @@ You can land rovers from both command line or from file.
 
 Single rover from command line: 
 ```sh
-$ npx myapp -l 1 2 N -p 5 5 -n MyNewRover -i LMLMLMLMM
+$ git clone git@github.com:probably-kira/rover.git
+$ cd rover
+$ npm i
+$ npm link
+$ myapp -l 1 2 N -p 5 5 -n MyNewRover -i LMLMLMLMM
 ```
+
+or, if you don't want link it, use
+```sh
+$ git clone git@github.com:probably-kira/rover.git
+$ cd rover
+$ npx ./src/index.js -l 1 2 N -p 5 5 -n MyNewRover -i LMLMLMLMM
+```
+NB: it could work without `npm link` if app would be published to npm registry,
+but I don't want to pollute npm with test apps
+
 
 Multiple rovers from file: 
 ```sh
-$ npx myapp -f path/to/myfile.txt
+$ myapp -f path/to/myfile.txt
 ```
 
 | Command | Description |
@@ -29,7 +43,6 @@ $ npx myapp -f path/to/myfile.txt
 | -f | file with instructions(example is in /test/files/input.txt) |
 
 to run test, please use
-Single rover from command line: 
 ```sh
 $ npx jest
 ```

@@ -1,10 +1,18 @@
 const {DELTA, DIRECTIONS, ANGLES, TURNS, cos, sin} = require('../utils/utils');
 
 class Rover {
+    /**
+     * initialize instance with instruction, name, landing
+     * @param initialParams
+     */
     constructor(initialParams) {
         Object.keys(initialParams).forEach(k => this[k] = initialParams[k]);
     }
 
+    /**
+     * Move rover corresponding to it's instructions
+     * @returns {{x: *, y: *, direction: *}} final coords
+     */
     followInstructions() {
         const {x, y, direction} = this.landing;
         return this.instructions.split('')
@@ -23,6 +31,13 @@ class Rover {
             }, {x, y, direction});
     }
 
+    /**
+     * move rover to one point in known direction
+     * @param x
+     * @param y
+     * @param direction
+     * @returns {{x: number, y: number}} new x/y
+     */
     move({x, y, direction}) {
         const a = DIRECTIONS[direction];
         return {
@@ -31,6 +46,14 @@ class Rover {
         };
     }
 
+    /**
+     * Turns rover without moving
+     * @param x
+     * @param y
+     * @param direction
+     * @param letter - L or R
+     * @returns {*} new direction(N/W/S/E)
+     */
     turn({x, y, direction}, letter) {
         const turn = TURNS[letter];
         //unknown letter

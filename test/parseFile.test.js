@@ -1,5 +1,7 @@
+const fs = require('fs');
+const path = require('path');
 const {parseParams, getName, parseFile } = require('../src/middlwares/parseFile');
-const {DEFAULT_NAME} = require('../src/utils/utils');
+
 /**
  *  Full list of passesd arguments, coming from yargs
  { _: [],
@@ -41,7 +43,7 @@ test('parseFile: should return unchanged list of args if no file passed', () => 
 
 test('parseFile: should parsed data for valid input', () => {
     const converted = parseFile({
-        file: '../test/files/input.txt'
+        file: path.resolve(__dirname, '../test/files/input.txt')
     });
     expect(converted.plateau).toEqual(['5', '5']);
     expect(converted._rovers.length).toEqual(2);
@@ -49,7 +51,7 @@ test('parseFile: should parsed data for valid input', () => {
 
 test('parseFile: should return an error for empty file', () => {
     const converted = parseFile({
-        file: '../test/files/empty.txt'
+        file: path.resolve(__dirname, '../test/files/empty.txt')
     });
     expect(converted.globalError).toBe(true);
 });

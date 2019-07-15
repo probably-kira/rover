@@ -1,5 +1,5 @@
 const {convertPlateau, convertRover, normalize} = require('../src/middlwares/normalize');
-const {DEFAULT_NAME} = require('../src/utils/utils');
+const {DEFAULT_PREFIX} = require('../src/utils/utils');
 /**
  *  Full list of passesd arguments, coming from yargs
  { _: [],
@@ -42,7 +42,7 @@ test('Rover name: should take given value', () => {
 
 test('Rover name: should take default if not passed any', () => {
     const converted = convertRover({});
-    expect(converted.name).toEqual(DEFAULT_NAME);
+    expect(converted.name).toEqual(DEFAULT_PREFIX);
 });
 
 test('Rover landing: should convert landing coords into proper object', () => {

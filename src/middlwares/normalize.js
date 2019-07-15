@@ -1,5 +1,25 @@
-const {DEFAULT_NAME} = require('../utils/utils');
+const {DEFAULT_PREFIX} = require('../utils/utils');
+/**
+ *  Full list of passesd arguments, coming from yargs
+ { _: [],
+   l: [ 1, 2, 'N' ],
+   landing: [ 1, 2, 'N' ],
+   p: [ 5, 5 ],
+   plateau: [ 5, 5 ],
+   i: [ 'LMLMLMLMM' ],
+   instructions: [ 'LMLMLMLMM' ],
+   n: 'MyNewRover',
+   name: 'MyNewRover',
+   '$0': 'myapp' }
+ *
+ */
 
+
+/**
+ * convert rover data to certain format
+ * @param data coming from yargs
+ * @returns {{landing: {x: *, y: *, direction: *}, instructions: *, name: *, error: boolean}}
+ */
 function convertRover(data) {
     const {landing: l, instructions: i, name} = data;
     const [x, y, direction] = l || [];
@@ -8,11 +28,11 @@ function convertRover(data) {
     const ie = !instructions;
 
     if (le) {
-        console.error('Landing: incorrect arguments list, should be <x y direction>')
+        console.error('Rover landing: incorrect arguments list, should be <x y direction>')
     }
 
     if (ie) {
-        console.error('Landing: incorrect arguments list, should be <LLMM>')
+        console.error('Rover instruction: incorrect arguments list, should be <LLMM>')
     }
 
     return {
@@ -22,21 +42,35 @@ function convertRover(data) {
             direction
         },
         instructions,
-        name: name || DEFAULT_NAME,
+        name: name || DEFAULT_PREFIX,
         error: le || ie
     }
 }
 
+/**
+ * convert plateau data to certain format
+ * @param plateau array coming from yargs
+ * @returns {{width: *, height: *, error: boolean}}
+ */
 function convertPlateau(p = []) {
     const [width, height] = p;
+    const error = !width || !height;
+    if (error) {
+        console.error('Plateau: incorrect arguments list, should be <width height>')
+    }
     return {
         width,
         height,
-        error: !width || !height
+        error
     }
 
 }
 
+/**
+ *
+ * @param argv coming directly from yargs or from parsed file(see parseFile.js)
+ * @returns {{plateau: {width: *, height: *, error: boolean}, rovers: *, globalError: *}}
+ */
 const normalize = (argv) => {
     const {_rovers, plateau, globalError: fileError} = argv;
     let rovers;

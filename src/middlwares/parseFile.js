@@ -1,13 +1,21 @@
 const fs = require('fs');
 const path = require('path');
-const DEFAULT_PREFIX = 'Rover';
+const {DEFAULT_PREFIX} = require('../utils/utils');
 
+/**
+ * ger file by absolute path
+ * @param relPath
+ */
 function bufferFile(relPath) {
     // must be fileSync bcs it's console app
-    console.log(path.resolve(relPath))
     return fs.readFileSync(path.resolve(relPath), { encoding: 'utf8' });
 }
 
+/**
+ *
+ * @param param string e.g 'Plateau:5 5'
+ * @returns converted obj, e.g {plateau: [5, 5]}
+ */
 function parseParams(param) {
     const pair = param.split(':') ;
     const name = pair[0].toLowerCase();
@@ -16,6 +24,12 @@ function parseParams(param) {
     }
 }
 
+/**
+ * get name based on passed or default prefix
+ * @param line
+ * @param prefix
+ * @returns {T | undefined}
+ */
 function getName(line, prefix) {
     const pattern = `\^${prefix}\\w+`;
     return (line.match(new RegExp(pattern, 'g')) || []).pop();
@@ -27,15 +41,14 @@ function getName(line, prefix) {
  */
 
 function parseData(lines, prefix) {
-    const _rovers = {};
     const parsed = lines.reduce((res, line) => {
         if (line) {
-            const firstWordMatchName = getName(line, prefix)
+            const firstWordMatchName = getName(line, prefix);
             if (firstWordMatchName) {
                 const params = parseParams(line.replace(`${firstWordMatchName} `, ''));
                 params.name = firstWordMatchName;
-                const obj = _rovers[firstWordMatchName] || {};
-                _rovers[firstWordMatchName] = {
+                const obj = res._rovers[firstWordMatchName] || {};
+                res._rovers[firstWordMatchName] = {
                     ...obj,
                     ...params
                 }
@@ -47,7 +60,9 @@ function parseData(lines, prefix) {
             }
         }
         return res;
-    }, {});
+    }, {_rovers: {}});
+
+    const {_rovers} = parsed;
     parsed._rovers = Object.values(_rovers);
     parsed.globalError = !parsed._rovers.length || !parsed.plateau;
     return parsed;
