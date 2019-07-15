@@ -1,0 +1,27 @@
+{
+  "name": "rover-test-app",
+  "version": "1.0.1",
+  "description": "",
+  "main": "./src/index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "commander": "^2.20.0",
+    "node-fetch": "^2.6.0",
+    "yargs": "^13.2.4"
+  },
+  "bin": {
+    "myapp": "./src/index.js"
+  },
+  "devDependencies": {
+    "jest": "^24.8.0"
+  },
+  "jest": {
+    "rootDir": "test/",
+    "testRegex": "test\\.js$"
+  }
+}
